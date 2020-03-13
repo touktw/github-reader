@@ -1,5 +1,6 @@
-package com.touktw.github.base
+package com.touktw.github.net
 
+import com.touktw.github.base.BaseApi
 import com.touktw.github.model.RepositoryModel
 import com.touktw.github.model.UserModel
 import retrofit2.Call
@@ -10,7 +11,7 @@ import retrofit2.http.GET
  */
 
 
-interface GithubService {
+interface GithubApi : BaseApi {
 
     @GET("user")
     fun getUser(): Call<UserModel>

@@ -11,23 +11,24 @@ import okhttp3.Response
 
 abstract class BaseHttpClient {
 
+    abstract fun getBaseUrl(): String
     abstract fun getHeaders(): Headers
     fun getClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(object : Interceptor {
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val original = chain.request()
-                    val request = original.newBuilder()
-                        .headers(getHeaders())
-                        .method(original.method, original.body)
-                        .build()
+                .addInterceptor(object : Interceptor {
+                    override fun intercept(chain: Interceptor.Chain): Response {
+                        val original = chain.request()
+                        val request = original.newBuilder()
+                                .headers(getHeaders())
+                                .method(original.method, original.body)
+                                .build()
 
-                    return chain.proceed(request)
+                        return chain.proceed(request)
 
-                }
+                    }
 
-            })
-            .build()
+                })
+                .build()
 
     }
 

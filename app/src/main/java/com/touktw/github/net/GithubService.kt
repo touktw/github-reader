@@ -7,6 +7,8 @@ package com.touktw.github.net
 object GithubService {
     fun get(): GithubApi {
         val client = GithubHttpClient()
-        return ServiceManager.getService(client, GithubApi::class.java)
+        return ServiceManager.getService(client, BASE_URL, GithubApi::class.java)
     }
+
+    const val BASE_URL = "https://api.github.com"
 }

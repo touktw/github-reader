@@ -1,5 +1,6 @@
 package com.touktw.github.net
 
+import com.touktw.github.base.BaseApi
 import com.touktw.github.base.BaseHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,12 +11,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object ServiceManager {
-    fun <T> getService(client: BaseHttpClient, service: Class<out T>): T {
-        return Retrofit.Builder()
-                .baseUrl(client.getBaseUrl())
-                .client(client.getClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(service)
+    private val services = mutableMapOf<String, BaseApi>()
+    fun <T : BaseApi> getService(
+        client: BaseHttpClient,
+        baseUrl: String,
+        service: Class<out T>
+    ): T {
+        return services[service.simpleName] as T? ?: Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client.client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(service).also {
+                services[service.simpleName] = it
+            }
     }
 }

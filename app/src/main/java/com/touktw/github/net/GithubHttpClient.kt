@@ -9,19 +9,14 @@ import okhttp3.Headers
 
 class GithubHttpClient(val authKey: String = AUTH_KEY) : BaseHttpClient() {
 
-    override fun getBaseUrl(): String {
-        return BASE_URL
-    }
-
     override fun getHeaders(): Headers {
         return Headers.Builder()
-                .add(KEY_AUTH, "token $authKey")
-                .build()
+            .add(KEY_AUTH, "token $authKey")
+            .build()
     }
 
     companion object {
         const val KEY_AUTH = "Authorization"
         const val AUTH_KEY = "06917654abb58620afff4ea1f7877eabdf062823"
-        const val BASE_URL = "https://api.github.com"
     }
 }

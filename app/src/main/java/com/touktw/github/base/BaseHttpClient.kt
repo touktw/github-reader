@@ -10,27 +10,26 @@ import okhttp3.Response
  */
 
 abstract class BaseHttpClient {
+    abstract fun getHeaders(): Headers?
 
-    abstract fun getBaseUrl(): String
-    abstract fun getHeaders(): Headers
-    fun getClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-                .addInterceptor(object : Interceptor {
-                    override fun intercept(chain: Interceptor.Chain): Response {
-                        val original = chain.request()
-                        val request = original.newBuilder()
-                                .headers(getHeaders())
-                                .method(original.method, original.body)
-                                .build()
-
-                        return chain.proceed(request)
-
+    val client: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(object : Interceptor {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    val original = chain.request()
+                    val builder = original.newBuilder()
+                    getHeaders()?.let {
+                        builder.headers(it)
                     }
+                    val request = builder
+                        .method(original.method, original.body)
+                        .build()
 
-                })
-                .build()
+                    return chain.proceed(request)
 
+                }
+
+            })
+            .build()
     }
-
-
 }

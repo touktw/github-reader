@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CircularProgressDialog" parent="Theme.MaterialComponents.Dialog">
+    <style name="CircularProgressDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 

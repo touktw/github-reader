@@ -8,4 +8,4 @@ pluginManagement {
 
 rootProject.name="Github reader"
 
-include (":app")
+include (":app", ":data")
